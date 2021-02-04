@@ -1,25 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
+import logo, { ReactComponent } from "./logo.svg";
+import "./App.css";
+import React from "react";
+import CocktailsContainer from "./CocktailsContainer.js";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+export default class App extends React.Component {
+  state = {
+    cocktails: ["hello"],
+  };
+  componentDidMount() {
+    fetch("http://localhost:3000/api/v1/cocktails")
+      .then((resp) => resp.json())
+      .then((json) =>
+        this.setState({
+          cocktails: json,
+        })
+      );
+  }
+  render() {
+    return (
+      <div className="App">
+        <CocktailsContainer cocktails={this.state.cocktails} />
+      </div>
+    );
+  }
 }
-
-export default App;
